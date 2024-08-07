@@ -71,7 +71,7 @@ namespace Task_4_Test
         {
 
             Client client = new Client(messageSourceMock.Object, serverEP, "Test"); // создаем тестового клиента
-            client.GetListNotConfirm(); // Вызываем метод регистрации. 
+            client.GetListNotConfirm(); // Вызываем метод запроса непрочитанных сообщений. 
 
             //Проверяем, что метод SendMessage имеет правильные параметры
 
