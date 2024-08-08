@@ -17,7 +17,13 @@ namespace Task_4_Test
         MessagePack testRegister = new MessagePack()
         {
             Command = Command.Register,
-            FromName = "test",
+            FromName = "TestRegister",
+        };
+
+        MessagePack testGetList = new MessagePack()
+        {
+            Command = Command.Register,
+            FromName = "TestGetList",
         };
 
 
@@ -25,8 +31,7 @@ namespace Task_4_Test
         public void Setup()
         {
             _endPoint = new IPEndPoint(IPAddress.Any, 0);
-            messageSourceMock = new Mock<IMessageSource>(); // создаем мок типа IMessageSource   
-            serverEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 54321); // инициализируем IPEndPoint сервера
+            messageSourceMock = new Mock<IMessageSource>(); // создаем мок типа IMessageSource           
         }
 
         [Test]
@@ -47,8 +52,8 @@ namespace Task_4_Test
         [Test]
         public void TestClientMessageRegister()
         {
-
-            Client client = new Client(messageSourceMock.Object, serverEP, "Test"); // создаем тестового клиента
+                   
+            Client client = new Client(messageSourceMock.Object, _endPoint, testRegister.FromName); // создаем тестового клиента
             client.Register(); // Вызываем метод регистрации. 
 
             //Проверяем, что метод SendMessage имеет правильные параметры
@@ -56,7 +61,7 @@ namespace Task_4_Test
             messageSourceMock.Verify(x => x.SendMessage(
                 It.Is<MessagePack>
                 (
-                    msg => msg.Command == Command.Register && msg.FromName == "Test"
+                    msg => msg.Command == Command.Register && msg.FromName == "TestRegister"
                 ),
                 It.Is<IPEndPoint>
                 (
@@ -70,7 +75,7 @@ namespace Task_4_Test
         public void TestClientMessageGetListNotConfirm()
         {
 
-            Client client = new Client(messageSourceMock.Object, serverEP, "Test"); // создаем тестового клиента
+            Client client = new Client(messageSourceMock.Object, _endPoint, testGetList.FromName); // создаем тестового клиента
             client.GetListNotConfirm(); // Вызываем метод запроса непрочитанных сообщений. 
 
             //Проверяем, что метод SendMessage имеет правильные параметры
@@ -78,7 +83,7 @@ namespace Task_4_Test
             messageSourceMock.Verify(x => x.SendMessage(
                 It.Is<MessagePack>
                 (
-                    msg => msg.Command == Command.ListNotConfirmation && msg.FromName == "Test"
+                    msg => msg.Command == Command.ListNotConfirmation && msg.FromName == "TestGetList"
                 ),
                 It.Is<IPEndPoint>
                 (

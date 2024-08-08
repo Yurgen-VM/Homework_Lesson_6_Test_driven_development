@@ -22,7 +22,7 @@ namespace Task_4
                 IPEndPoint clientEP = new IPEndPoint(IPAddress.Parse("127.0.0.1"), localPort);
                 IMessageSource messageSource = new MessageSource(localPort); //Создаем объект реализующий интерфейс ImessageSource
                                                                              //В конструкторе содаем UdpClient с предустановленным портом для входящих   
-                Client client = new Client(messageSource, clientEP, args[0]); // Создаем эземпляр клиента                    
+                Client client = new Client(messageSource, clientEP, args[0]); // Создаем экземпляр клиента                    
 
                 var ListenTask = Task.Run(() => client.ClientListener()); // В отдельном потоке запускаем метод для приема сообщений
                 var SendTask = Task.Run(() => client.ClientSender()); // Запускаем метод для отправки сообщений         
