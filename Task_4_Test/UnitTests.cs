@@ -5,24 +5,21 @@ using Task_4.Abstraction;
 
 namespace Task_4_Test
 {
-
-
     public class Tests
     {
         private IMessageSource _source;
-        private IPEndPoint _endPoint;
-        private IPEndPoint serverEP; // IPEndPoint сервера для тестирования клиента
+        private IPEndPoint _endPoint;        
         private Mock<IMessageSource> messageSourceMock;
 
-        MessagePack testRegister = new MessagePack()
+        MessagePack testRegister = new MessagePack() // пакет сообщения для проверки метода TestClientMessageRegister
         {
             Command = Command.Register,
-            FromName = "TestRegister",
+            FromName = "TestRegister", 
         };
 
-        MessagePack testGetList = new MessagePack()
+        MessagePack testGetList = new MessagePack() // пакет сообщения для проверки метода TestClientMessageRegister
         {
-            Command = Command.Register,
+            Command = Command.ListNotConfirmation,
             FromName = "TestGetList",
         };
 
@@ -53,7 +50,7 @@ namespace Task_4_Test
         public void TestClientMessageRegister()
         {
                    
-            Client client = new Client(messageSourceMock.Object, _endPoint, testRegister.FromName); // создаем тестового клиента
+            Client client = new Client(messageSourceMock.Object, _endPoint, testRegister.FromName); // создаем тестового клиента, имя клиента получаем из предустановленного объекта testRegister 
             client.Register(); // Вызываем метод регистрации. 
 
             //Проверяем, что метод SendMessage имеет правильные параметры
@@ -75,7 +72,7 @@ namespace Task_4_Test
         public void TestClientMessageGetListNotConfirm()
         {
 
-            Client client = new Client(messageSourceMock.Object, _endPoint, testGetList.FromName); // создаем тестового клиента
+            Client client = new Client(messageSourceMock.Object, _endPoint, testGetList.FromName); // создаем тестового клиента, имя клиента получаем из предустановленного объекта testGetList
             client.GetListNotConfirm(); // Вызываем метод запроса непрочитанных сообщений. 
 
             //Проверяем, что метод SendMessage имеет правильные параметры
